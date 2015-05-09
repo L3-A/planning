@@ -98,7 +98,9 @@ public class Accueil extends JFrame implements ActionListener{
 		        try {
 		            File fichier = chooser.getSelectedFile();
 					calendrier = new Calendrier();
-					deserialise = new Deserialiser(fichier, calendrier);
+					deserialise = new Deserialiser();
+					deserialise.setFichier(fichier);
+					deserialise.setCalendrier(calendrier);
 					calendrier = deserialise.deserialiser();
 					new Planning(calendrier);
 					this.setVisible(false);

@@ -112,4 +112,36 @@ public class CalendrierTableModele extends AbstractTableModel {
     	calendarDay.add(Calendar.DATE, day);
     	return calendarDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "+calendarDay.get(Calendar.DATE); // bug sur cette ligne calendar au lieu de calendarDay
     }
+
+    /**
+     * Accesseur en lecture
+     * @return calendrier
+     */
+	public Calendrier getCalendrier() {
+		return calendrier;
+	}
+
+	/**
+	 * Accesseur en écriture
+	 * @param calendrier
+	 */
+	public void setCalendrier(Calendrier calendrier) {
+		this.calendrier = calendrier;
+	}
+
+	/**
+	 * Accesseur en lecture
+	 * @return calendar
+	 */
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	/**
+	 * Accesseur en écriture
+	 * @param calendar
+	 */
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
 }

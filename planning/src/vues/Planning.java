@@ -8,7 +8,9 @@ import javax.swing.table.*;
 
 import metiers.Annee;
 import metiers.Calendrier;
+import modeles.CalendrierModele;
 import modeles.CalendrierTableModele;
+import modeles.SemainePanelModele;
 
 /**
  * Vue Planning
@@ -25,7 +27,6 @@ public class Planning extends JFrame{
     private JMenuBar barreMenu;
 	private JMenu fichier, edition;
 	private JMenuItem sauvegarder, fermer, copier, coller;
-	private JTableRender mcr;
     private JLabel semaineLabel, anneeLabel;
     private JTable table;
     private JPanel panSouth;
@@ -35,6 +36,7 @@ public class Planning extends JFrame{
     
 	private Calendar calendar;
     private CalendrierTableModele tableModel;
+    private CalendrierModele calendrierModele;
 	private Calendrier calendrier;
 	private Annee uneAnnee;
 
@@ -56,7 +58,9 @@ public class Planning extends JFrame{
         
     	uneAnnee = new Annee();
     	uneAnnee = calendrier.getUneAnnee();
-		calendar = calendrier.construireCalendrier(uneAnnee);
+    	
+    	calendrierModele = new CalendrierModele();
+		calendar = calendrierModele.construireCalendrier(uneAnnee);
 		
     	anneeSuivante = uneAnnee.anneeChoisit(uneAnnee)+1;
 
@@ -115,7 +119,7 @@ public class Planning extends JFrame{
         JScrollPane tableScrollPane = new JScrollPane(table);
  
         //Panel du bas affichant les différentes semaines	
-        semainePanel = new SemainePanel(this, calendar, calendrier);
+        semainePanel = new SemainePanel(this, calendar, calendrier, calendrierModele);
         panSouth = new JPanel(new BorderLayout());
         panSouth.add(semainePanel, BorderLayout.SOUTH);
         
@@ -149,7 +153,7 @@ public class Planning extends JFrame{
             semaineLabel.setText(getSemaineLabel());
         	tableModel.fireTableStructureChanged(); 
         	semainePanel.updateSelection();
-        	this.getJoursOuvrable();
+        	getJoursOuvrable();
     }
     
     /**
@@ -184,16 +188,14 @@ public class Planning extends JFrame{
  
     	int moisDernierJour = calendar.get(Calendar.MONTH);
  
-    	return SemainePanel.getSemaineLabel(semaine, premierJour, dernierJour, moisPremierJour, moisDernierJour); 
+    	return SemainePanelModele.getSemaineLabel(semaine, premierJour, dernierJour, moisPremierJour, moisDernierJour); 
     }
     
-
-	
 	/**
 	 * Méthode qui gère les jours ouvrés
 	 */
 	private void getJoursOuvrable(){
-		mcr = new JTableRender();
+		JTableRender mcr = new JTableRender();
 
 		if(calendrier.getSamediOuvrable() == true){
 			table.getColumnModel().getColumn(5).setCellRenderer(mcr);
@@ -203,11 +205,6 @@ public class Planning extends JFrame{
 		if(calendrier.getDimancheOuvrable() == true){
 			table.getColumnModel().getColumn(6).setCellRenderer(mcr);
 			tableModel.isCellEditable(0, 6);
-		}
-		
-		if(calendrier.getFerieOuvrable() == true){
-			//calendrier.isJourTravaille(calendrier.getUneAnnee());
-			//COMMENT FAIRE POUR GRISER LES CAS DONT LES JOURS SONT FERIES
 		}
 	}
 }

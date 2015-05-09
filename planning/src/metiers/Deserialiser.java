@@ -11,7 +11,6 @@ import java.io.Serializable;
  * @author Dylan
  */
 public class Deserialiser implements Serializable{
-
 	/**
 	 * serialVersionUID
 	 */
@@ -28,12 +27,34 @@ public class Deserialiser implements Serializable{
 	private Calendrier calendrier;
 	
 	/**
-	 * Constructeur de la classe
+	 * Accesseur en lecture
+	 * @return fichier
+	 */
+	public File getFichier() {
+		return fichier;
+	}
+
+	/**
+	 * Accesseur en écriture
 	 * @param fichier
+	 */
+	public void setFichier(File fichier) {
+		this.fichier = fichier;
+	}
+
+	/**
+	 * Accesseur en lecture
+	 * @return calendrier
+	 */
+	public Calendrier getCalendrier() {
+		return calendrier;
+	}
+
+	/**
+	 * Accesseur en écriture
 	 * @param calendrier
 	 */
-	public Deserialiser(File fichier, Calendrier calendrier){
-		this.fichier = fichier;
+	public void setCalendrier(Calendrier calendrier) {
 		this.calendrier = calendrier;
 	}
 	
@@ -51,7 +72,6 @@ public class Deserialiser implements Serializable{
 	        calendrier.setUneAnnee(uneAnnee);
 	        calendrier.setSamediOuvrable(data.readBoolean());
 	        calendrier.setDimancheOuvrable(data.readBoolean());
-	        calendrier.setFerieOuvrable(data.readBoolean());
 	        data.close();
 	        file.close();
 		}  catch(IOException ioe) {

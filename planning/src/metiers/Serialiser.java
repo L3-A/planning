@@ -26,19 +26,42 @@ public class Serialiser implements Serializable {
 	private Calendrier calendrier;
 	
 	/**
-	 * Constructeur
+	 * Accesseur en lecture
+	 * @return fichier
+	 */
+	public String getFichier() {
+		return fichier;
+	}
+
+	/**
+	 * Accesseur en écriture
 	 * @param fichier
+	 */
+	public void setFichier(String fichier) {
+		this.fichier = fichier;
+	}
+
+	/**
+	 * Accesseur en lecture
+	 * @return calendrier
+	 */
+	public Calendrier getCalendrier() {
+		return calendrier;
+	}
+
+	/**
+	 * Accesseur en écriture
 	 * @param calendrier
 	 */
-	public Serialiser(String fichier, Calendrier calendrier){
-		this.fichier = fichier;
+	public void setCalendrier(Calendrier calendrier) {
 		this.calendrier = calendrier;
 	}
-	
+
 	/**
 	 * Méthode qui permet de créer un fichier binaire avec les données choisit
 	 */
-	public void serialiser(){
+	public boolean serialiser(){
+		boolean reussi = false;
 		try{
 			FileOutputStream file=new FileOutputStream(fichier);
 			DataOutputStream data = new DataOutputStream(file);
@@ -46,13 +69,13 @@ public class Serialiser implements Serializable {
 			data.writeUTF(calendrier.getUneAnnee().getAnnee());
 			data.writeBoolean(calendrier.getSamediOuvrable());
 			data.writeBoolean(calendrier.getDimancheOuvrable());
-			data.writeBoolean(calendrier.getFerieOuvrable());
 			data.flush();
 			data.close();
 	        file.close();
+	        reussi = true;
 		}  catch(IOException ioe) {
 	        ioe.printStackTrace();
+		}
+		return reussi;
 	}
-}
-
 }

@@ -37,7 +37,6 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
     private JLabel choixAnnee;
     private JCheckBox samediCheck;
     private JCheckBox dimancheCheck;
-    private JCheckBox ferieCheck;
     private JLabel nonOuvres;
     private JPanel checkBox;
     private JScrollPane ascenseur;
@@ -59,7 +58,6 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
         setLocationRelativeTo(null);
         ajouterComposants();
     	this.addWindowListener(this);
-
     }
     
     /**
@@ -73,10 +71,8 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
     	checkBox.add(nonOuvres);
     	samediCheck = new JCheckBox("Samedi");
     	dimancheCheck = new JCheckBox("Dimanche");
-    	ferieCheck = new JCheckBox("Jours Fériés");
     	checkBox.add(samediCheck);
     	checkBox.add(dimancheCheck);
-    	checkBox.add(ferieCheck);
 
     	//Liste des années
     	annee = new ListeAnneeModele();
@@ -107,7 +103,6 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 		Object source = event.getSource();
 		boolean samedi = false;
 		boolean dimanche = false;
-		boolean ferie = false;
 		if (source.equals(creer)) {	
 			if(samediCheck.isSelected()){
 				samedi = true;
@@ -117,9 +112,6 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 				dimanche = true;
 			}
 			
-			if(ferieCheck.isSelected()){
-				ferie = true;
-			}
             Object valeur = liste.getSelectedValue();
 			calendrier= new Calendrier();
 			uneAnnee = new Annee();
@@ -128,7 +120,6 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 			calendrier.setUneAnnee(uneAnnee);
 			calendrier.setSamediOuvrable(samedi);
 			calendrier.setDimancheOuvrable(dimanche);
-			calendrier.setFerieOuvrable(ferie);
 			
 			int anneeSuivante = uneAnnee.anneeChoisit(uneAnnee);
 			anneeSuivante = anneeSuivante +1;
@@ -140,9 +131,15 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 		    if (retrival == JFileChooser.APPROVE_OPTION) {
 		        try {
 		            String fw = (chooser.getSelectedFile()+"_Vierge_"+uneAnnee.getAnnee()+"_"+anneeSuivante+".dat");
-		            serialise = new Serialiser(fw, calendrier);
-					serialise.serialiser();
-			        JOptionPane.showMessageDialog(this,"Le fichier a été enregister dans " +fw+ " !", "Information", JOptionPane.INFORMATION_MESSAGE);
+		            serialise = new Serialiser();
+		            serialise.setFichier(fw);
+		            serialise.setCalendrier(calendrier);
+					boolean reussi = serialise.serialiser();
+					if(reussi == true){
+				        JOptionPane.showMessageDialog(this,"Le fichier a été enregister dans " +fw+ " !", "Information", JOptionPane.INFORMATION_MESSAGE);						
+					}else{
+				        JOptionPane.showMessageDialog(this,"Une erreur inconnue est survenu lors de l'enregistrement du fichier !", "Erreur", JOptionPane.ERROR_MESSAGE);
+					}
 		        } catch (Exception ex) {
 		            ex.printStackTrace();
 		        }
