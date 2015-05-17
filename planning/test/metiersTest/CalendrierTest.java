@@ -32,5 +32,7 @@ public class CalendrierTest {
 		Assert.assertEquals(false, calendrier.getDimancheOuvrable());
 		Assert.assertEquals(false, calendrier.getSamediOuvrable());
 		Assert.assertEquals(null, calendrier.getUneAnnee());
+		Assert.assertEquals(0, calendrier.getSeances().size());
+
 	}
 }

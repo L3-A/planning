@@ -36,7 +36,7 @@ public class ModuleTable extends JPanel implements TableModelListener{
         tableau.getTableHeader().setReorderingAllowed(false); 
         
         tableau.setDefaultRenderer(Color.class, new CouleurModuleRenderer());
-        tableau.setDefaultEditor(Color.class, new ColorCellEditor());
+        tableau.setDefaultEditor(Color.class, new CouleurCelluleEditer());
         
         tableau.getModel().addTableModelListener(this);
         
@@ -44,7 +44,6 @@ public class ModuleTable extends JPanel implements TableModelListener{
     }
     
     public void addModule(metiers.Module module){
-    	module.setDureeModule(module.getNbSeance()*dureeSeance);
     	moduleTableModele.addModule(module);
     }
     

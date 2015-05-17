@@ -19,7 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import modeles.ModuleModele;
-
+/**
+ * Vue Module
+ * @author Dylan
+ */
 public class Module extends JFrame implements ActionListener, MouseListener{
 	/**
 	 * serialVersionUID
@@ -41,16 +44,24 @@ public class Module extends JFrame implements ActionListener, MouseListener{
 	private metiers.Module module;
 	private ModuleTable moduleTable;
 	private ModuleModele moduleModele;
-	@SuppressWarnings("deprecation")
+	
+	/**
+	 * Constructeur
+	 * @param moduleTable : paramètre de type ModuleTable
+	 */
 	public Module(ModuleTable moduleTable){
 		this.moduleTable = moduleTable;
 		moduleModele = new ModuleModele(moduleTable);
         this.setTitle("Caractéristique d'un module");
         this.setSize(500, 400);
         this.setLocationRelativeTo(null);
+        ajouterComposants();
         this.setVisible(true);
-        
-        // LABEL
+	}
+
+	@SuppressWarnings("deprecation")
+	private void ajouterComposants(){
+        //Label permettant d'identifier les champs de saisis
         labelNomModule = new JLabel("* Nom du module :");
         labelNomModule.setFont(new Font(null, Font.PLAIN, 14));
         labelAbreviation = new JLabel("* Abréviation :");
@@ -60,7 +71,7 @@ public class Module extends JFrame implements ActionListener, MouseListener{
         labelNBSeance = new JLabel("* Nombre de séances :");
         labelNBSeance.setFont(new Font(null, Font.PLAIN, 14));
         
-        // TEXT
+        //Champs de saisis
 		txtNomModule = new JTextField();
 		txtAbreviation = new JTextField();  
 		txtCouleur = new JTextField();
@@ -68,6 +79,7 @@ public class Module extends JFrame implements ActionListener, MouseListener{
 		txtCouleur.addMouseListener(this);
 		txtCouleur.disable();
 		
+		//Ajout des label et champs de saisis au panChamp
 		panChamp = new JPanel(new GridLayout(4,2,20,5));
 		panChamp.add(labelNomModule);
 		panChamp.add(txtNomModule);
@@ -90,30 +102,40 @@ public class Module extends JFrame implements ActionListener, MouseListener{
         panPrincipal.add(boutonCreer);
         this.setContentPane(panPrincipal);
 	}
-
+	
+	/**
+	 * Méthode appelée lors du clique sur le bouton créer
+	 * Permet de créer un nouveau module
+	 */
 	public void actionPerformed(ActionEvent event){
 		Object source = event.getSource();
 		if(source == boutonCreer){
+			//Test pour savoir si les champs sont vides
 			if(txtNomModule.getText().isEmpty()== true || txtAbreviation.getText().isEmpty()==true
 					||txtNBSeance.getText().isEmpty()==true){
 				JOptionPane.showMessageDialog(null, "Veuillez renseigner tous les champs obligatoires" ,"Données manquantes",1);
 			}else if(moduleModele.isValid(txtNBSeance.getText()) == true){
 				String message = moduleModele.verifModule(txtNomModule.getText(), txtAbreviation.getText(), txtCouleur.getBackground());
 				if(!message.equals("")){
+					//Si le module existe déjà, on affiche un message d'erreur
 					JOptionPane.showMessageDialog(this,message,"Module existant",JOptionPane.INFORMATION_MESSAGE);
 				}else{
+					//Ajout du module si tout est correct
 					int nbSeance = new Integer(txtNBSeance.getText());
 					module = new metiers.Module(txtNomModule.getText(), txtAbreviation.getText(), txtCouleur.getBackground(), nbSeance);
-					//module.setDureeModule(nbSeance); 
 					moduleTable.addModule(module);
 					this.dispose();
 				}
 			}else{
+				//Affichage d'un mesage d'erreur si le nombre de séance n'est pas de type nuémrique
 				JOptionPane.showMessageDialog(this, "Le nombre de séance doit être une valeur numérique" ,"Erreur format",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
 
+	/**
+	 * Méthode appelée lors du clique sur le champ pour ajouter une couleur au module
+	 */
 	public void mouseClicked(MouseEvent arg0) {
 		couleur = JColorChooser.showDialog(null, "couleur du fond", Color.WHITE);
 		txtCouleur.setBackground(couleur);

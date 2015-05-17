@@ -44,6 +44,9 @@ public class SemainePanel extends JPanel {
  
 	/**
 	 * Constructeur
+	 * @param planning : paramètre de type Planning
+	 * @param calendar : paramètre de type Calendar
+	 * @param calendrierModele : paramètre de type CalendrierModele
 	 */
 	public SemainePanel(Planning planning, Calendar calendar, CalendrierModele calendrierModele){
 		this.planning = planning;
@@ -144,7 +147,7 @@ public class SemainePanel extends JPanel {
 
 	/**
 	 * Accesseur en écriture
-	 * @param calendrierModele
+	 * @param calendrierModele : paramètre de type CalendrierModele
 	 */
 	public void setCalendrierModele(CalendrierModele calendrierModele) {
 		this.calendrierModele = calendrierModele;

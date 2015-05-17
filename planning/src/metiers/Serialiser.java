@@ -30,7 +30,7 @@ public class Serialiser{
 
 	/**
 	 * Accesseur en écriture
-	 * @param fw
+	 * @param fw : paramètre de type File
 	 */
 	public void setFichier(File fw) {
 		this.fichier = fw;
@@ -46,7 +46,7 @@ public class Serialiser{
 
 	/**
 	 * Accesseur en écriture
-	 * @param calendrier
+	 * @param calendrier : paramètre de type Calendrier
 	 */
 	public void setCalendrier(Calendrier calendrier) {
 		this.calendrier = calendrier;
@@ -54,6 +54,7 @@ public class Serialiser{
 
 	/**
 	 * Méthode qui permet de créer un fichier binaire avec les données choisit
+	 * @return reussi : true si l'enregistrement à réussi, false sinon
 	 */
 	public boolean serialiser(){
 		boolean reussi = false;

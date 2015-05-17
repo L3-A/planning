@@ -5,7 +5,9 @@ import java.awt.Component;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-
+/**
+ * Classe permettant d'attribuer à la cellule contenant la couleur choisit pour le module
+ */
 public class CouleurModuleRenderer extends DefaultTableCellRenderer {
     /**
 	 * serialVersionUID
@@ -20,7 +22,6 @@ public class CouleurModuleRenderer extends DefaultTableCellRenderer {
         setText("");
         setBackground(color);
         
-        return this;
-        
+        return this;  
     }
 }

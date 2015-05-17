@@ -4,24 +4,24 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import metiers.Annee;
+import metiers.Formation;
 
 /**
  * @author Dylan
  * Classe AnneeTest
  */
-public class AnneeTest {
+public class FormationTest {
 	/**
-	 * Attribut Annee annee;
+	 * Attribut Formation formation
 	 */
-	private Annee annee;
+	private Formation formation;
 	
 	/**
 	 * Initialisation de l'environnement
 	 */
 	@Before // La procedure setup sera exécutée avant chaque test
 	public void setup() {
-		annee = new Annee();
+		formation = new Formation();
 	}
 	
 	/**
@@ -29,6 +29,8 @@ public class AnneeTest {
 	 */
 	@Test
 	public void testConstructeur() {
-		Assert.assertEquals(null, annee.getAnnee());
+		Assert.assertEquals(null, formation.getNom());
+		Assert.assertEquals(0,0, formation.getDureeTypeSeance());
+		Assert.assertEquals(0, formation.getModules().size());
 	}
 }

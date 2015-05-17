@@ -35,15 +35,13 @@ public class Calendrier implements Serializable{
 	private Formation uneFormation;
 	
 	/**
-	 * Attrit List<Seance> seances
+	 * Attribut List Seance seances
 	 */
 	private List<Seance> seances;
 	
 	/**
 	 * Constructeur par défaut
 	 */
-	
-	
 	public Calendrier(){
 		seances = new ArrayList<Seance>();
 	}
@@ -58,7 +56,7 @@ public class Calendrier implements Serializable{
 
 	/**
 	 * Accesseur en écriture
-	 * @param samediOuvrable
+	 * @param samediOuvrable : paramètre de type boolean
 	 */
 	public void setSamediOuvrable(boolean samediOuvrable){
 		this.samediOuvrable = samediOuvrable;
@@ -74,7 +72,7 @@ public class Calendrier implements Serializable{
 
 	/**
 	 * Accesseur en écriture
-	 * @param dimancheOuvrable
+	 * @param dimancheOuvrable : paramètre de type boolean
 	 */
 	public void setDimancheOuvrable(boolean dimancheOuvrable){
 		this.dimancheOuvrable = dimancheOuvrable;
@@ -90,7 +88,7 @@ public class Calendrier implements Serializable{
 
 	/**
 	 * Accesseur en écriture
-	 * @param uneAnnee
+	 * @param uneAnnee : paramètre de type Annee
 	 */
 	public void setUneAnnee(Annee uneAnnee){
 		this.uneAnnee = uneAnnee;
@@ -106,7 +104,7 @@ public class Calendrier implements Serializable{
 
 	/**
 	 * Accesseur en écriture
-	 * @param uneFormation
+	 * @param uneFormation : paramètre de type Formation
 	 */
 	public void setUneFormation(Formation uneFormation) {
 		this.uneFormation = uneFormation;
@@ -122,30 +120,9 @@ public class Calendrier implements Serializable{
 
 	/**
 	 * Accesseur en écriture
-	 * @param seances
+	 * @param seances : paramètre de type List Seance
 	 */
 	public void setSeances(List<Seance> seances) {
 		this.seances = seances;
 	}
-	
-	public int nbSeance(Seance uneSeance){
-		int nbSeance = 1;
-		for(Seance seance : seances){
-			if(seance.getModule().getNom().equals(uneSeance.getModule().getNom())){
-				nbSeance = nbSeance + 1;
-			}
-		}
-		return nbSeance;
-	}
-	
-	public void nbSeanceSup(Seance uneSeance){
-		int nbSeance = 0;
-		for(Seance seance : seances){
-			if(seance.getNbSeanceModule() > uneSeance.getNbSeanceModule()){
-				nbSeance = seance.getNbSeanceModule() - 1;
-				seance.setNbSeanceModule(nbSeance);			
-			}
-		}
-	}
-	
 }

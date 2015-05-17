@@ -1,9 +1,12 @@
 package modelesTest;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import metiers.Annee;
 import metiers.Calendrier;
+import metiers.Seance;
 import modeles.CalendrierModele;
 import modeles.CalendrierTableModele;
 
@@ -32,11 +35,11 @@ public class CalendrierTableModeleTest {
 		calendrier.setDimancheOuvrable(true);
 		calendrier.setSamediOuvrable(false);
 		calendrier.setUneAnnee(uneAnnee);
-		
+		List<Seance> seances = new ArrayList<Seance>();
 		CalendrierModele calendrierModele = new CalendrierModele();
 		Calendar calendar;
 		calendar = calendrierModele.construireCalendrier(uneAnnee);
-		calendrierTableModele = new CalendrierTableModele(calendar, calendrier);
+		calendrierTableModele = new CalendrierTableModele(calendar, calendrier, seances);
 	}
 	
 	/**
@@ -48,6 +51,9 @@ public class CalendrierTableModeleTest {
 		Assert.assertEquals(true, calendrierTableModele.getCalendrier().getDimancheOuvrable());
 		Assert.assertEquals(false, calendrierTableModele.getCalendrier().getSamediOuvrable());
 		Assert.assertEquals("2016", calendrierTableModele.getCalendrier().getUneAnnee().getAnnee());
+		Assert.assertEquals(null, calendrierTableModele.getCalendrier().getUneFormation());
+		Assert.assertEquals(0, calendrierTableModele.getCalendrier().getSeances().size());
+
 	}
 	
 	/**
@@ -71,7 +77,7 @@ public class CalendrierTableModeleTest {
 	 */
 	@Test
 	public void testTestValueAt() {
-		Assert.assertEquals("", calendrierTableModele.getValueAt(1, 6));
+		Assert.assertEquals(null, calendrierTableModele.getValueAt(1, 6));
 	}
 
 	/**
