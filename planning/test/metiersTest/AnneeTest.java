@@ -29,8 +29,7 @@ public class AnneeTest {
 	 */
 	@Test
 	public void testConstructeur() {
-		Annee uneAnnee = new Annee();
-		Assert.assertEquals(uneAnnee.getAnnee(), annee.getAnnee());
+		Assert.assertEquals(null, annee.getAnnee());
 	}
 	
 	/**

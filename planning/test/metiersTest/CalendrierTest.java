@@ -29,9 +29,8 @@ public class CalendrierTest {
 	 */
 	@Test
 	public void testConstructeur() {
-		Calendrier unCalendrier = new Calendrier();
-		Assert.assertEquals(unCalendrier.getDimancheOuvrable(), calendrier.getDimancheOuvrable());
-		Assert.assertEquals(unCalendrier.getSamediOuvrable(), calendrier.getSamediOuvrable());
-		Assert.assertEquals(unCalendrier.getUneAnnee(), calendrier.getUneAnnee());
+		Assert.assertEquals(false, calendrier.getDimancheOuvrable());
+		Assert.assertEquals(false, calendrier.getSamediOuvrable());
+		Assert.assertEquals(null, calendrier.getUneAnnee());
 	}
 }

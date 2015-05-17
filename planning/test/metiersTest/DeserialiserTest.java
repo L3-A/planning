@@ -2,7 +2,6 @@ package metiersTest;
 
 import java.io.File;
 
-import metiers.Annee;
 import metiers.Calendrier;
 import metiers.Deserialiser;
 
@@ -33,9 +32,8 @@ public class DeserialiserTest {
 	 */
 	@Test
 	public void testConstructeur() {
-		Deserialiser uneDeserialiser= new Deserialiser();
-		Assert.assertEquals(uneDeserialiser.getCalendrier(), deserialiser.getCalendrier());
-		Assert.assertEquals(uneDeserialiser.getFichier(), deserialiser.getFichier());
+		Assert.assertEquals(null, deserialiser.getCalendrier());
+		Assert.assertEquals(null, deserialiser.getFichier());
 	}
 	
 	/**
@@ -43,21 +41,15 @@ public class DeserialiserTest {
 	 */
 	@Test
 	public void testDeserialiser() {
-		File fichier = new File("C:/Users/Dylan/Documents/Planning_Vierge_2016_2017.dat");
+		String curDir = System.getProperty("user.dir");
+		File fichier = new File(curDir+"/documents/Planning_2016_2017.dat");
 		Calendrier calendrier = new Calendrier();
 		deserialiser.setCalendrier(calendrier);
 		deserialiser.setFichier(fichier);
 		calendrier = deserialiser.deserialiser();
-		
-		Calendrier calendrier2 = new Calendrier();
-		Annee uneAnnee = new Annee();
-		uneAnnee.setAnnee("2016");
-		calendrier2.setDimancheOuvrable(false);
-		calendrier2.setSamediOuvrable(false);
-		calendrier2.setUneAnnee(uneAnnee);
-		
-		Assert.assertEquals(calendrier2.getDimancheOuvrable(), calendrier.getDimancheOuvrable());
-		Assert.assertEquals(calendrier2.getSamediOuvrable(), calendrier.getSamediOuvrable());
-		Assert.assertEquals(calendrier2.getUneAnnee().getAnnee(), calendrier.getUneAnnee().getAnnee());
+				
+		Assert.assertEquals(false, calendrier.getDimancheOuvrable());
+		Assert.assertEquals(false, calendrier.getSamediOuvrable());
+		Assert.assertEquals("2016", calendrier.getUneAnnee().getAnnee());
 	}
 }

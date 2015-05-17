@@ -1,5 +1,6 @@
 package metiers;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,7 +10,11 @@ import java.util.Date;
  * Classe métier Annee
  * @author Dylan
  */
-public class Annee {
+public class Annee implements Serializable{
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Attribut String annee
 	 */

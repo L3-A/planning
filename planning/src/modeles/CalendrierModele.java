@@ -1,16 +1,25 @@
 package modeles;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
 import metiers.Annee;
+import metiers.Calendrier;
+import metiers.Module;
+import metiers.Serialiser;
 
 /**
  * Classe modèle CalendrierModèle
  * @author Dylan
  */
 public class CalendrierModele {
+	private Calendrier calendrier;
+	
+	public CalendrierModele(Calendrier calendrier){
+		this.calendrier = calendrier;
+	}
+	
 	/**
 	 * Méthode qui permet de construire le calendrier pour une année scolaire
 	 * @param uneAnnee
@@ -53,4 +62,56 @@ public class CalendrierModele {
  
 		return calendar;
 	}
+	
+	
+	public boolean saveFichier(File file){
+		boolean reussi;
+		Serialiser serialise ;
+		serialise = new Serialiser();
+		serialise.setFichier(file);
+		serialise.setCalendrier(calendrier);
+		reussi = serialise.serialiser();
+		return reussi;
+	}
+
+	public float dureeNbHeureFormation(){
+		float dureeHeures = 0;
+		int nbSeanceTotal = 0;
+		float dureeSeance = calendrier.getUneFormation().getDureeTypeSeance();
+		List<Module> modules = calendrier.getUneFormation().getModules();
+		for(Module unModule : modules){
+			nbSeanceTotal = nbSeanceTotal + unModule.getNbSeance();
+		}
+		dureeHeures = nbSeanceTotal * dureeSeance;
+		
+		return dureeHeures;
+	}
+	
+	public int dureeJoursFormation(Calendar calendar){
+    	int dureeJours = 0;
+    	int nbSemainesAnnee = calendar.getWeeksInWeekYear();
+    	boolean dimancheOuvrable = calendrier.getDimancheOuvrable();
+    	boolean samediOuvrable = calendrier.getSamediOuvrable();
+    	dureeJours = nbSemainesAnnee * 7;
+    	
+    	if(samediOuvrable == true){
+    		dureeJours = dureeJours - (nbSemainesAnnee);
+    	}
+    	
+    	if(dimancheOuvrable == true){
+    		dureeJours = dureeJours - (nbSemainesAnnee);
+    	}
+    	return dureeJours;
+	}
+
+	public Calendrier getCalendrier() {
+		return calendrier;
+	}
+
+
+	public void setCalendrier(Calendrier calendrier) {
+		this.calendrier = calendrier;
+	}
+	
+
 }

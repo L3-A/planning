@@ -1,11 +1,14 @@
 package modeles;
 
+import java.awt.Color;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.table.AbstractTableModel;
 
 import metiers.Calendrier;
+import metiers.Seance;
 
 /**
  * Classe modèle CalendrierTableModèle
@@ -24,14 +27,17 @@ public class CalendrierTableModele extends AbstractTableModel {
     private Calendrier calendrier;
     
     private Calendar calendar;
+	private final List<Seance> seances;
+	private int semaine;
     /**
      * Constructeur
      * @param calendar
      * @param calendrier
      */
-    public CalendrierTableModele(Calendar calendar, Calendrier calendrier){
+    public CalendrierTableModele(Calendar calendar, Calendrier calendrier, List<Seance> seances){
     	this.calendar = calendar;
     	this.calendrier = calendrier;
+    	this.seances = seances;
     }
 
     /**
@@ -56,10 +62,71 @@ public class CalendrierTableModele extends AbstractTableModel {
      * @param col : index de la colonne
      * @return Object
      */
-    public Object getValueAt(int row, int col){
-    	return "";
-    }
+    public String getValueAt(int row, int col){
+    	String chaine = null;
+    	if(seances.size() != 0){
+    		for(Seance uneSeance : seances){
+    			if(uneSeance.getIndexColonne() == col && uneSeance.getIndexLigne() == row && uneSeance.getSemaine() == semaine){
+    				chaine = uneSeance.toString();
 
+    			}
+    		}
+        	switch(col){
+        	case 0:
+        		return chaine;
+        	case 1:
+        		return chaine;
+        	case 2:
+        		return chaine;
+        	case 3:
+        		return chaine;
+        	case 4:
+        		return chaine;
+        	case 5:
+        		return chaine;
+        	case 6:
+        		return chaine;
+        	default:
+        		return null;
+            }
+    	}else{
+    		return null;
+    	}
+    }
+    
+    
+    public Class getColumnClass(int col, int row){
+    	Color couleur;
+    	if(seances.size() != 0){
+    		for(Seance uneSeance : seances){
+    			if(uneSeance.getIndexColonne() == col && uneSeance.getIndexLigne() == row && uneSeance.getSemaine() == semaine){
+    				couleur = uneSeance.getModule().getCouleur();
+    			}
+    		}
+        	switch(col){
+        	case 0:
+        		return Color.class;
+        	case 1:
+        		return Color.class;
+        	case 2:
+        		return Color.class;
+        	case 3:
+        		return Color.class;
+        	case 4:
+        		return Color.class;
+        	case 5:
+        		return Color.class;
+        	case 6:
+        		return Color.class;
+        	default:
+        		return null;
+            }
+    	}else{
+    		return null;
+    	}
+    }
+    
+    
     /**
      * Méthode qui permet de dire si une cellule est éditable ou non
      * @param row : index de ligne
@@ -67,31 +134,10 @@ public class CalendrierTableModele extends AbstractTableModel {
      * @return boolean
      */
     public boolean isCellEditable(int row, int col){
-    	boolean editable;
-    	
-    	switch(col){
-    		case 5: // colonne 5 non éditable
-    			editable = !calendrier.getSamediOuvrable(); 
-    			break;
-    		case 6: // colonne 6 non éditable 
-    			editable = !calendrier.getDimancheOuvrable();
-    			break;
-    		default: // toutes les autres sont non éditables
-    			editable = true;
-    			break;
-    	}
-    	
-    	return editable;
+    	return false;
     }
 
-    /**
-     * Méthode qui permet d'ajouter une valeur dans une cellule
-     * @param row : index de la ligne
-     * @param col : index de la colonne
-     */
-    public void setValueAt(Object value, int row, int col){
 
-    }    
     
     /**
      * Méthode qui retourne le nom d'une colonne
@@ -143,5 +189,33 @@ public class CalendrierTableModele extends AbstractTableModel {
 	 */
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
+	}
+	
+    public void addSeance(Seance seance) {
+    	seances.add(seance);
+    }
+    
+    public void removeSeance(String seance) {
+    	for(Seance uneSeance : seances){
+    		if(uneSeance.toString().equals(seance)){
+    	    	seances.remove(uneSeance);
+    	    	calendrier.nbSeanceSup(uneSeance);
+    	    	this.fireTableDataChanged();
+    	    	break;
+    		}
+    	}
+    }
+    
+    
+    public List<Seance> getSeances(){
+    	return seances;
+    }
+
+	public int getSemaine() {
+		return semaine;
+	}
+
+	public void setSemaine(int semaine) {
+		this.semaine = semaine;
 	}
 }

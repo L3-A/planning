@@ -1,11 +1,11 @@
-package src.edu.esiag.vues;
+package src.vues;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.File;
 public class FichierHtml {
 public static void main(String [] args){
 try{
-File ff=new File("C:\\Calendrier.html"); // définir le chemin de stockage 
+File ff=new File("C:\\Users\\Desktop\\Calendrier.html"); // définir le chemin de stockage 
 ff.createNewFile();
 FileWriter ffw=new FileWriter(ff);
 ffw.write("<!DOCTYPE html> ");  // écrire une ligne dans le fichier resultat.txt
