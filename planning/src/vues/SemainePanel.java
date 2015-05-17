@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import metiers.Calendrier;
 import modeles.CalendrierModele;
 import modeles.SemainePanelModele;
 
@@ -36,7 +35,6 @@ public class SemainePanel extends JPanel {
 	private Calendar selection; 
 	private Planning planning;
 	private CalendrierModele calendrierModele;
-	private Calendrier calendrier;
 	private SemainePanelModele semainePanelModele;
 	
 	private JLabel[] semainesLabels;
@@ -47,13 +45,12 @@ public class SemainePanel extends JPanel {
 	/**
 	 * Constructeur
 	 */
-	public SemainePanel(Planning planning, Calendar calendar, Calendrier calendrier, CalendrierModele calendrierModele){
+	public SemainePanel(Planning planning, Calendar calendar, CalendrierModele calendrierModele){
 		this.planning = planning;
 		this.calendar = calendar;
-		this.calendrier = calendrier;
 		this.calendrierModele = calendrierModele;
 
-		semainePanelModele = new SemainePanelModele(calendrier, calendrierModele);
+		semainePanelModele = new SemainePanelModele(calendrierModele);
 		selection = semainePanelModele.copieCalendar(calendar);
 
 		ajouterComposants();
@@ -151,21 +148,5 @@ public class SemainePanel extends JPanel {
 	 */
 	public void setCalendrierModele(CalendrierModele calendrierModele) {
 		this.calendrierModele = calendrierModele;
-	}
-
-	/**
-	 * Accesseur en lecture
-	 * @return calendrier
-	 */
-	public Calendrier getCalendrier() {
-		return calendrier;
-	}
-
-	/**
-	 * Accesseur en écriture
-	 * @param calendrier
-	 */
-	public void setCalendrier(Calendrier calendrier) {
-		this.calendrier = calendrier;
 	}
 }

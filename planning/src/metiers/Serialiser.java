@@ -1,24 +1,19 @@
 package metiers;
 
-import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
+import java.io.ObjectOutputStream;
 
 /**
  * Classe Serialiser
  * @author Dylan
  */
-public class Serialiser implements Serializable {
+public class Serialiser{
     /**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	/**
 	 * Attribut String fichier
 	 */
-	private String fichier;
+	private File fichier;
 	
 	/**
 	 * Attribut Calendrier calendrier
@@ -29,16 +24,16 @@ public class Serialiser implements Serializable {
 	 * Accesseur en lecture
 	 * @return fichier
 	 */
-	public String getFichier() {
+	public File getFichier() {
 		return fichier;
 	}
 
 	/**
 	 * Accesseur en écriture
-	 * @param fichier
+	 * @param fw
 	 */
-	public void setFichier(String fichier) {
-		this.fichier = fichier;
+	public void setFichier(File fw) {
+		this.fichier = fw;
 	}
 
 	/**
@@ -64,16 +59,12 @@ public class Serialiser implements Serializable {
 		boolean reussi = false;
 		try{
 			FileOutputStream file=new FileOutputStream(fichier);
-			DataOutputStream data = new DataOutputStream(file);
-			
-			data.writeUTF(calendrier.getUneAnnee().getAnnee());
-			data.writeBoolean(calendrier.getSamediOuvrable());
-			data.writeBoolean(calendrier.getDimancheOuvrable());
-			data.flush();
-			data.close();
+			ObjectOutputStream object = new ObjectOutputStream(file);
+			object.writeObject(calendrier);
+			object.close();
 	        file.close();
 	        reussi = true;
-		}  catch(IOException ioe) {
+		} catch(IOException ioe){
 	        ioe.printStackTrace();
 		}
 		return reussi;

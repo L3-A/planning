@@ -1,5 +1,7 @@
 package metiersTest;
 
+import java.io.File;
+
 import metiers.Annee;
 import metiers.Calendrier;
 import metiers.Serialiser;
@@ -31,9 +33,8 @@ public class SerialiserTest {
 	 */
 	@Test
 	public void testConstructeur() {
-		Serialiser uneSerialiser= new Serialiser();
-		Assert.assertEquals(uneSerialiser.getCalendrier(), serialiser.getCalendrier());
-		Assert.assertEquals(uneSerialiser.getFichier(), serialiser.getFichier());
+		Assert.assertEquals(null, serialiser.getCalendrier());
+		Assert.assertEquals(null, serialiser.getFichier());
 	}
 	
 	/**
@@ -41,7 +42,7 @@ public class SerialiserTest {
 	 */
 	@Test
 	public void testSerialiser() {
-		String fichier = "C:/Users/Dylan/Documents/Planning_Vierge_2016_2017.dat";
+		File fichier = new File("C:/Users/Dylan/Documents/Planning_Vierge_2016_2017.dat");
 		Annee annee = new Annee();
 		annee.setAnnee("2016");
 		Calendrier calendrier = new Calendrier();

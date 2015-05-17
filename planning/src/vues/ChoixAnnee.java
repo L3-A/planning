@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -23,6 +25,7 @@ import javax.swing.ScrollPaneConstants;
 import metiers.Annee;
 import metiers.Calendrier;
 import metiers.Serialiser;
+import modeles.CalendrierModele;
 import modeles.ListeAnneeModele;
 
 public class ChoixAnnee extends JFrame implements ActionListener, WindowListener{
@@ -42,8 +45,8 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
     private JScrollPane ascenseur;
     
 	private ListeAnneeModele annee;
+	private CalendrierModele calendrierModele;
     private Serialiser serialise;
-    private Accueil accueil;
     private Calendrier calendrier;
     private Annee uneAnnee;
     
@@ -51,8 +54,7 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
      * Constructeur
      * @param accueil
      */
-    public ChoixAnnee(Accueil accueil){
-    	this.accueil = accueil;
+    public ChoixAnnee(){
 		setTitle("Gestion d'emploi du temps");
 		setSize(500,250);
         setLocationRelativeTo(null);
@@ -103,6 +105,7 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 		Object source = event.getSource();
 		boolean samedi = false;
 		boolean dimanche = false;
+		
 		if (source.equals(creer)) {	
 			if(samediCheck.isSelected()){
 				samedi = true;
@@ -113,7 +116,7 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 			}
 			
             Object valeur = liste.getSelectedValue();
-			calendrier= new Calendrier();
+            calendrier= new Calendrier();
 			uneAnnee = new Annee();
 			
 			uneAnnee = uneAnnee.convertirUneAnnee(valeur.toString());
@@ -121,22 +124,28 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 			calendrier.setSamediOuvrable(samedi);
 			calendrier.setDimancheOuvrable(dimanche);
 			
+			calendrierModele = new CalendrierModele(calendrier);
+			
 			int anneeSuivante = uneAnnee.anneeChoisit(uneAnnee);
 			anneeSuivante = anneeSuivante +1;
 			
 		    JFileChooser chooser = new JFileChooser();
 		    chooser.setCurrentDirectory(new File("/Documents"));
+        	
+		    File fw = null;
+		    File file = new File("Planning_"+uneAnnee.getAnnee()+"_"+anneeSuivante+".dat");
+        	chooser.setSelectedFile(file);
 		    
-		    int retrival = chooser.showSaveDialog(null);
+        	int retrival = chooser.showSaveDialog(null);
 		    if (retrival == JFileChooser.APPROVE_OPTION) {
 		        try {
-		            String fw = (chooser.getSelectedFile()+"_Vierge_"+uneAnnee.getAnnee()+"_"+anneeSuivante+".dat");
-		            serialise = new Serialiser();
-		            serialise.setFichier(fw);
-		            serialise.setCalendrier(calendrier);
-					boolean reussi = serialise.serialiser();
+		            fw = (chooser.getSelectedFile());
+		            //serialise = new Serialiser();
+		            //serialise.setFichier(fw);
+		            //serialise.setCalendrier(calendrier);
+					boolean reussi = calendrierModele.saveFichier(fw);
 					if(reussi == true){
-				        JOptionPane.showMessageDialog(this,"Le fichier a été enregister dans " +fw+ " !", "Information", JOptionPane.INFORMATION_MESSAGE);						
+				        JOptionPane.showMessageDialog(this,"Le fichier a été enregistré dans " +fw+ " !", "Information", JOptionPane.INFORMATION_MESSAGE);						
 					}else{
 				        JOptionPane.showMessageDialog(this,"Une erreur inconnue est survenu lors de l'enregistrement du fichier !", "Erreur", JOptionPane.ERROR_MESSAGE);
 					}
@@ -144,15 +153,14 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 		            ex.printStackTrace();
 		        }
 		    }
-			new Planning(calendrier);
+		    List<metiers.Seance> seances = new ArrayList<metiers.Seance>();
+			new Planning(calendrierModele, fw, seances);
 			this.setVisible(false);
 		}
 	}
 
 	public void windowActivated(WindowEvent arg0){}
-	public void windowClosed(WindowEvent arg0){
-		accueil.setVisible(true);
-	}
+	public void windowClosed(WindowEvent arg0){}
 	public void windowClosing(WindowEvent arg0){}
 	public void windowDeactivated(WindowEvent arg0){}
 	public void windowDeiconified(WindowEvent arg0){}

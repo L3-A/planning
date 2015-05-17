@@ -6,17 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 import metiers.Annee;
-import metiers.Calendrier;
 
 /**
  * @author Dylan
  * Classe SemainePanelModele
  */
 public class SemainePanelModele {
-	/**
-	 * Attribut Calendrier calendrier
-	 */
-	private Calendrier calendrier;
+
 	
 	/**
 	 * Attribut CalendrierModele calendrierModele
@@ -26,8 +22,7 @@ public class SemainePanelModele {
 	/**
 	 * Constructeur
 	 */
-	public SemainePanelModele(Calendrier calendrier, CalendrierModele calendrierModele){
-		this.calendrier = calendrier;
+	public SemainePanelModele(CalendrierModele calendrierModele){
 		this.calendrierModele = calendrierModele;
 	}
 	
@@ -68,7 +63,7 @@ public class SemainePanelModele {
 	 */
 	public Calendar getPremiereSemaine(int mois){
     	Annee uneAnnee = new Annee();
-    	uneAnnee = calendrier.getUneAnnee();
+    	uneAnnee = calendrierModele.getCalendrier().getUneAnnee();
         
     	Calendar calendar = calendrierModele.construireCalendrier(uneAnnee);
 		
@@ -140,22 +135,6 @@ public class SemainePanelModele {
 		String fin = " (" + week + ")";
  
 		return debut + " - " + milieu + fin;
-	}
-
-	/**
-	 * Accesseur en lecture
-	 * @return calendrier
-	 */
-	public Calendrier getCalendrier() {
-		return calendrier;
-	}
-
-	/**
-	 * Accesseur en écriture
-	 * @param calendrier
-	 */
-	public void setCalendrier(Calendrier calendrier) {
-		this.calendrier = calendrier;
 	}
 
 	/**

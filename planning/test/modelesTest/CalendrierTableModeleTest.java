@@ -43,24 +43,11 @@ public class CalendrierTableModeleTest {
 	 * Test du constructeur
 	 */
 	@Test
-	public void testConstructeur() {
-		Annee uneAnnee = new Annee();
-		uneAnnee.setAnnee("2016");
-		Calendrier calendrier = new Calendrier();
-		calendrier.setDimancheOuvrable(true);
-		calendrier.setSamediOuvrable(false);
-		calendrier.setUneAnnee(uneAnnee);
-		
-		CalendrierModele calendrierModele = new CalendrierModele();
-		Calendar calendar;
-		calendar = calendrierModele.construireCalendrier(uneAnnee);
-		
-		CalendrierTableModele unCalendrierTableModele = new CalendrierTableModele(calendar, calendrier);
-		
-		Assert.assertEquals(unCalendrierTableModele.getCalendar().getTime(), calendrierTableModele.getCalendar().getTime());
-		Assert.assertEquals(unCalendrierTableModele.getCalendrier().getDimancheOuvrable(), calendrierTableModele.getCalendrier().getDimancheOuvrable());
-		Assert.assertEquals(unCalendrierTableModele.getCalendrier().getSamediOuvrable(), calendrierTableModele.getCalendrier().getSamediOuvrable());
-		Assert.assertEquals(unCalendrierTableModele.getCalendrier().getUneAnnee().getAnnee(), calendrierTableModele.getCalendrier().getUneAnnee().getAnnee());
+	public void testConstructeur() {	
+		Assert.assertEquals(2016, calendrierTableModele.getCalendar().getWeekYear());
+		Assert.assertEquals(true, calendrierTableModele.getCalendrier().getDimancheOuvrable());
+		Assert.assertEquals(false, calendrierTableModele.getCalendrier().getSamediOuvrable());
+		Assert.assertEquals("2016", calendrierTableModele.getCalendrier().getUneAnnee().getAnnee());
 	}
 	
 	/**

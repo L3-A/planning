@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -16,6 +18,7 @@ import javax.swing.border.TitledBorder;
 
 import metiers.Calendrier;
 import metiers.Deserialiser;
+import modeles.CalendrierModele;
 
 /**
  * Vue Accueil
@@ -37,6 +40,7 @@ public class Accueil extends JFrame implements ActionListener{
 	private Deserialiser deserialise;
 	private ChoixAnnee choixAnnee;
 	private Calendrier calendrier;
+	private CalendrierModele calendrierModele;
 
 	/**
 	 * Constructeur
@@ -102,7 +106,12 @@ public class Accueil extends JFrame implements ActionListener{
 					deserialise.setFichier(fichier);
 					deserialise.setCalendrier(calendrier);
 					calendrier = deserialise.deserialiser();
-					new Planning(calendrier);
+
+					calendrierModele = new CalendrierModele(calendrier);
+					
+					List<metiers.Seance> seances = new ArrayList<metiers.Seance>();
+					new Planning(calendrierModele, fichier, seances);
+
 					this.setVisible(false);
 		        } catch (Exception ex) {
 		            ex.printStackTrace();
@@ -111,7 +120,7 @@ public class Accueil extends JFrame implements ActionListener{
 			//Si le bouton radio nouveau un planning est coché
 		}else if(nouveauPlanning.isSelected()){
 			//Affichage du formulaire de choix de l'année pour la création du planning
-			choixAnnee = new ChoixAnnee(this);
+			choixAnnee = new ChoixAnnee();
 			choixAnnee.setVisible(true);
 			this.setVisible(false);
 		}else{
