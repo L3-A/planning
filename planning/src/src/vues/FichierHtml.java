@@ -2,10 +2,57 @@ package src.vues;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFileChooser;
+
+import metiers.Calendrier;
+import metiers.Deserialiser;
+import modeles.CalendrierModele;
+import vues.Planning;
 public class FichierHtml {
 public static void main(String [] args){
+	
+	Deserialiser deserialise = new Deserialiser();	
+	Calendrier calendrier = new Calendrier();
+	//Affichage de la chooser pour ouvrir d'un planning existant
+	JFileChooser chooser = new JFileChooser();
+    chooser.setVisible(true);
+    chooser.setCurrentDirectory(new File("/Documents"));
+    int retrival = chooser.showOpenDialog(null);
+
+    if (retrival == JFileChooser.APPROVE_OPTION) {
+        try {
+           // File fichier = new File("C:");
+        	File fichier = chooser.getSelectedFile();
+			//Calendrier calendrier = new Calendrier();
+
+			deserialise.setFichier(fichier);
+			//deserialise.setCalendrier(calendrier);
+			calendrier = deserialise.deserialiser();
+			
+			//calendrierModele = new CalendrierModele(calendrier);
+			
+			System.out.println(deserialise.getCalendrier().getUneAnnee().getAnnee());
+			//System.out.println(calendrier.getSeances().get(1));
+			
+			for(metiers.Seance uneSeance : deserialise.getCalendrier().getSeances()){
+					System.out.println( uneSeance.getModule().getNom());
+				
+			}
+			
+			
+			} catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+	
+	
+	
+	
 try{
-File ff=new File("C:\\Users\\Desktop\\Calendrier.html"); // définir le chemin de stockage 
+File ff=new File("C:\\Users\\ahmed\\Desktop\\Calendrier.html"); // définir le chemin de stockage 
 ff.createNewFile();
 FileWriter ffw=new FileWriter(ff);
 ffw.write("<!DOCTYPE html> ");  // écrire une ligne dans le fichier resultat.txt
@@ -34,9 +81,13 @@ ffw.write(" </head>");
 ffw.write("\n"); 
 ffw.write(" <body>");
 ffw.write("\n"); 
-ffw.write(" <p>Année : 2015 - 2016</p>");
+ffw.write(" <p>Année : "+ calendrier.getUneAnnee().getAnnee() +"</p>");
 ffw.write("\n"); 
 ffw.write(" <table style=\"width:100% \"> ");
+ffw.write("\n"); 
+ffw.write(" <caption>" +calendrier.getUneFormation().getNom()+"</caption>");
+
+
 ffw.write("\n"); 
 ffw.write(" <caption>31 Aout - 6 Septembre (36)</caption>");
 ffw.write("\n"); 
@@ -60,36 +111,41 @@ ffw.write("   </tr>");
 ffw.write("\n"); 
 ffw.write(" <tr>");
 ffw.write("\n"); 
-ffw.write(" <td>Java</td>");
-ffw.write("\n"); 
-ffw.write(" <td>Base de donnes</td>");
-ffw.write("\n"); 
-ffw.write(" <td>Marketing</td>");
-ffw.write("\n"); 
-ffw.write(" <td>IHM</td>");
-ffw.write("\n"); 
-ffw.write(" <td>Analyse fi</td>");
-ffw.write("\n"); 
-ffw.write(" <td>Anglais</td>");
-ffw.write("\n"); 
+
+int i =0;
+
+for(metiers.Seance uneSeance : deserialise.getCalendrier().getSeances()){
+	System.out.println( uneSeance.getModule().getNom());
+	//System.out.println(uneSeance.getNbSeanceModule());
+	//System.out.println(uneSeance.getModule().getNbSeance());
+
+	ffw.write(" <td>" +uneSeance.getModule().getNom()+"</td>"); 	
+	ffw.write("\n"); 
+
+
+	
+}
+System.out.println(calendrier.getDimancheOuvrable());
+
+
+
 ffw.write("  <th rowspan=\"2\"  style=\"background-color: #000000\"></th>	");
 ffw.write("\n"); 
 ffw.write(" </tr>");
 ffw.write("\n"); 
 ffw.write(" <tr>");
 ffw.write("\n"); 
-ffw.write(" <td>Java</td>");
-ffw.write("\n"); 
-ffw.write(" <td>Base de donnes</td>");
-ffw.write("\n"); 
-ffw.write(" <td>Marketing</td>");
-ffw.write("\n"); 
-ffw.write(" <td>IHM</td>");
-ffw.write("\n"); 
-ffw.write(" <td>Analyse fi</td>");
-ffw.write("\n"); 
-ffw.write(" <td>Anglais</td>");
-ffw.write("\n"); 
+for(metiers.Seance uneSeance : deserialise.getCalendrier().getSeances()){
+	System.out.println( uneSeance.getModule().getNom());
+	//System.out.println(uneSeance.getNbSeanceModule());
+	//System.out.println(uneSeance.getModule().getNbSeance());
+
+	ffw.write(" <td>" +uneSeance.getModule().getNom()+"</td>"); 	
+	ffw.write("\n"); 
+
+
+	
+}
 ffw.write(" </tr>");
 ffw.write("\n"); 
 ffw.write("</table> ");
