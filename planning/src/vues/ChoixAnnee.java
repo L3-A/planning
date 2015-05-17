@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ import modeles.ListeAnneeModele;
  * Vue ChoixAnnee
  * @author Dylan
  */
-public class ChoixAnnee extends JFrame implements ActionListener{
+public class ChoixAnnee extends JFrame implements ActionListener, WindowListener{
 	/**
 	 * serialVersionUID
 	 */
@@ -59,6 +61,7 @@ public class ChoixAnnee extends JFrame implements ActionListener{
 		setSize(500,250);
         setLocationRelativeTo(null);
         ajouterComposants();
+        this.addWindowListener(this);
     }
     
     /**
@@ -155,4 +158,14 @@ public class ChoixAnnee extends JFrame implements ActionListener{
 			this.dispose();
 		}
 	}
+
+	public void windowActivated(WindowEvent arg0) {}
+	public void windowClosed(WindowEvent arg0) {}
+	public void windowClosing(WindowEvent arg0) {
+		System.exit(0);
+	}
+	public void windowDeactivated(WindowEvent arg0) {}
+	public void windowDeiconified(WindowEvent arg0) {}
+	public void windowIconified(WindowEvent arg0) {}
+	public void windowOpened(WindowEvent arg0) {}
 }

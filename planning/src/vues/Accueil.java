@@ -3,6 +3,8 @@ package vues;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import modeles.CalendrierModele;
  * Vue Accueil
  * @author Dylan
  */
-public class Accueil extends JFrame implements ActionListener{
+public class Accueil extends JFrame implements ActionListener, WindowListener{
 	/**
 	 * serialVersionUID
 	 */
@@ -46,6 +48,7 @@ public class Accueil extends JFrame implements ActionListener{
 		setSize(500,200);
         this.setLocationRelativeTo(null);
 		ajouterComposants();
+		this.addWindowListener(this);
 	}
 	
 	/**
@@ -79,7 +82,6 @@ public class Accueil extends JFrame implements ActionListener{
 	public static void main(String[] args) {
     	Accueil frame = new Accueil();
     	frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 	/**
@@ -103,7 +105,7 @@ public class Accueil extends JFrame implements ActionListener{
 					List<metiers.Seance> seances = new ArrayList<metiers.Seance>();
 					new Planning(calendrierModele, fichier, seances);
 
-					this.setVisible(false);
+					this.dispose();
 		        } catch (Exception ex) {
 		            ex.printStackTrace();
 		        }
@@ -113,10 +115,20 @@ public class Accueil extends JFrame implements ActionListener{
 			//Affichage du formulaire de choix de l'année pour la création du planning
 			choixAnnee = new ChoixAnnee();
 			choixAnnee.setVisible(true);
-			this.setVisible(false);
+			this.dispose();
 		}else{
 			//Pas de choix sélectionné
 	        JOptionPane.showMessageDialog(this,"Aucune action n'a été choisit !", "Erreur", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	public void windowActivated(WindowEvent arg0) {}
+	public void windowClosed(WindowEvent arg0) {}
+	public void windowClosing(WindowEvent arg0) {
+		System.exit(0);
+	}
+	public void windowDeactivated(WindowEvent arg0) {}
+	public void windowDeiconified(WindowEvent arg0) {}
+	public void windowIconified(WindowEvent arg0) {}
+	public void windowOpened(WindowEvent arg0) {}
 }

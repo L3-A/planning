@@ -121,13 +121,16 @@ public class Seance implements Serializable{
 	 * @return chaine
 	 */
 	public String toString(){	
+		//Conversion de la couleur lisible au format html
+		String hexRed = Integer.toHexString(module.getCouleur().getRed());
+        String hexGreen = Integer.toHexString(module.getCouleur().getGreen());
+        String hexBlue = Integer.toHexString(module.getCouleur().getBlue());
+        String couleur = "#"+hexRed+hexGreen+hexBlue;
 
-		
-		
-		String chaine = "<html><body><font color="+module.getCouleur().getRGB()+"><p style='text-align: center;'>"+module.getNom()+"</p>"
+		String chaine = "<html><body style='background:"+couleur+"'><p style='text-align: center;'>"+module.getNom()+"</p>"
 				+ "<p style='text-align: center;'>"+module.getAbreviation()+"</p>"
 				+ "<p style='text-align: center;'>"+rangSeanceModule+"/"
-				+ module.getNbSeance()+"</p></font></body></html>";
+				+ module.getNbSeance()+"</p></body></html>";
 
 		return chaine;
 	}

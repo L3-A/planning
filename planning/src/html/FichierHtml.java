@@ -1,18 +1,13 @@
-package src.main;
-import java.io.FileOutputStream;
+package html;
 import java.io.FileWriter;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 
 import metiers.Calendrier;
 import metiers.Deserialiser;
-import modeles.CalendrierModele;
-import vues.Planning;
 public class FichierHtml {
-public static void main(String [] args){
+public FichierHtml(){
 	
 	Deserialiser deserialise = new Deserialiser();	
 	Calendrier calendrier = new Calendrier();
@@ -52,7 +47,7 @@ public static void main(String [] args){
 	
 	
 try{
-File ff=new File("C:\\Users\\ahmed\\Desktop\\Calendrier.html"); // définir le chemin de stockage 
+File ff=new File("C:\\Users\\dylan\\Desktop\\Calendrier.html"); // définir le chemin de stockage 
 ff.createNewFile();
 FileWriter ffw=new FileWriter(ff);
 ffw.write("<!DOCTYPE html> ");  // écrire une ligne dans le fichier resultat.txt

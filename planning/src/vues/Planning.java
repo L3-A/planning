@@ -14,6 +14,7 @@ import java.io.File;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import html.FichierHtml;
 import metiers.Annee;
 import modeles.AnneeModele;
 import modeles.CalendrierModele;
@@ -37,6 +38,7 @@ public class Planning extends JFrame implements MouseListener, ActionListener, W
 	private JMenu edition;
 	private JMenu formation;
 	private JMenuItem sauvegarder;
+	private JMenuItem export;
 	private JMenuItem fermer;
 	private JMenuItem copier;
 	private JMenuItem coller;
@@ -136,6 +138,9 @@ public class Planning extends JFrame implements MouseListener, ActionListener, W
     	sauvegarder = new JMenuItem("Sauvegarder le planning");
     	fichier.add(sauvegarder);
     	sauvegarder.addActionListener(this);
+    	export = new JMenuItem("Exporter le planning en html");
+    	fichier.add(export);
+    	export.addActionListener(this);
     	fermer = new JMenuItem("Fermer");
     	fichier.add(fermer);
     	edition = new JMenu("Edition");
@@ -324,6 +329,11 @@ public class Planning extends JFrame implements MouseListener, ActionListener, W
 		//Sauvegarder le planning avec les modifications apportées 
 		if(source == sauvegarder){
 			this.saveFichier(file);
+		}
+		
+		//Sauvegarder le planning avec les modifications apportées 
+		if(source == export){
+			FichierHtml html = new FichierHtml();
 		}
 		
 		//Ouverture d'un planning existant
