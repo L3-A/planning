@@ -117,7 +117,7 @@ int i =0;
 for(metiers.Seance uneSeance : deserialise.getCalendrier().getSeances()){
 	System.out.println( uneSeance.getModule().getNom());
 	//System.out.println(uneSeance.getNbSeanceModule());
-	//System.out.println(uneSeance.getModule().getNbSeance());
+	
 
 	ffw.write(" <td>" +uneSeance.getModule().getNom()+"</td>"); 	
 	ffw.write("\n"); 
