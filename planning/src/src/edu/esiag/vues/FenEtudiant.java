@@ -24,7 +24,7 @@ private JTextArea TxtZone = new JTextArea("Resumé de votre saisie \n",4,15);
         public FenEtudiant(){
             Container c = getContentPane();
              c.setLayout(null);
-             c.setBackground(Color.WHITE);
+             //c.setBackground(Color.yellow);
                 this.setTitle("Saisie des données");
                 this.setSize(500, 500);
                 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

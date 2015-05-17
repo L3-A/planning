@@ -5,7 +5,7 @@ import java.io.File;
 public class FichierHtml {
 public static void main(String [] args){
 try{
-File ff=new File("C:\\Calendrier.html"); // définir l'arborescence
+File ff=new File("C:\\Calendrier.html"); // définir le chemin de stockage 
 ff.createNewFile();
 FileWriter ffw=new FileWriter(ff);
 ffw.write("<!DOCTYPE html> ");  // écrire une ligne dans le fichier resultat.txt

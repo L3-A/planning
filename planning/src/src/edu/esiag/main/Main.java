@@ -6,6 +6,7 @@ import src.edu.esiag.model.Module;
 import src.edu.esiag.model.Seance;
 import src.edu.esiag.vues.FenEtudiant;
 import src.edu.esiag.vues.Formulaire;
+import src.edu.esiag.vues.FichierHtml;
 
 
 
@@ -43,8 +44,8 @@ public class Main {
 		//new Main();
 		
 		
-		new FenEtudiant ();
-		
+		//new FenEtudiant ();
+		new FichierHtml();
 	
 	}
 
