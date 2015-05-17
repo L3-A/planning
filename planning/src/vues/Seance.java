@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -16,9 +14,13 @@ import javax.swing.JPanel;
 
 import modeles.CalendrierModele;
 import modeles.CalendrierTableModele;
-
-
-public class Seance extends JFrame implements ActionListener, WindowListener{
+import modeles.ModuleModele;
+/**
+ * Vue Seance
+ * @author Dylan
+ *
+ */
+public class Seance extends JFrame implements ActionListener{
 	/**
 	 * serialVersionUID
 	 */
@@ -38,7 +40,13 @@ public class Seance extends JFrame implements ActionListener, WindowListener{
     
     /**
      * Constructeur
-     * @param accueil
+     * @param planning : paramètre de type Planning
+     * @param modules : paramètre de type List Module
+     * @param ligne : paramètre de type int
+     * @param colonne : paramètre de type int
+     * @param semaine : paramètre de type int
+     * @param calendrierTableModele : paramètre de type CalendrierTableModele
+     * @param calendrierModele : paramètre de type CalendrierModele 
      */
     public Seance(Planning planning, List<metiers.Module> modules, int ligne, int colonne, int semaine, CalendrierTableModele calendrierTableModele, CalendrierModele calendrierModele){
     	this.planning = planning;
@@ -53,7 +61,6 @@ public class Seance extends JFrame implements ActionListener, WindowListener{
 		setSize(300,250);
         setLocationRelativeTo(null);
         ajouterComposants();
-    	this.addWindowListener(this);
     }
     
     /**
@@ -87,41 +94,27 @@ public class Seance extends JFrame implements ActionListener, WindowListener{
     	Object valeur = liste.getSelectedItem();
 		metiers.Seance uneSeance = new metiers.Seance();
 		metiers.Module module = new metiers.Module();
+		ModuleModele moduleModele = new ModuleModele();
 		
-		module = uneSeance.convertirUneSeance(valeur.toString());
+		//Appel de la méthode pour convertir le nom du module choisi
+		module = moduleModele.convertirUneSeance(valeur.toString());
 
-		module = recupInfoModule(module);
+		//Appel de la méthode qui permet de récupérer les informations du module choisit
+		module = moduleModele.recupInfoModule(module, modules);
 
+		//Création de la séance
 		uneSeance.setIndexColonne(colonne);
 		uneSeance.setIndexLigne(ligne);
 		uneSeance.setSemaine(semaine);
 		uneSeance.setModule(module);
-		int nbSeance = calendrierModele.getCalendrier().nbSeance(uneSeance);
-		uneSeance.setNbSeanceModule(nbSeance);
+		int nbSeance = calendrierModele.nbSeanceAdd(uneSeance);
+		uneSeance.setRangSeanceModule(nbSeance);
 		calendrierTableModele.addSeance(uneSeance);
-
+		
+		//Test pour savoir si le rang du module de la séance ajouté est supérieur au nombre de séance du module
 		if(nbSeance > module.getNbSeance()){
 			planning.updateIndicationSeance();
 		}
 		this.dispose();
 	}
-
-    public metiers.Module recupInfoModule(metiers.Module module){
-    	for(metiers.Module unModule : modules){
-    		if(unModule.getNom().equals(module.getNom())){
-    			module.setAbreviation(unModule.getAbreviation());
-    			module.setNbSeance(unModule.getNbSeance());
-    			module.setCouleur(unModule.getCouleur());
-    			break;
-    		}
-    	}
-    	return module;
-    }
-	public void windowActivated(WindowEvent arg0){}
-	public void windowClosed(WindowEvent arg0){}
-	public void windowClosing(WindowEvent arg0){}
-	public void windowDeactivated(WindowEvent arg0){}
-	public void windowDeiconified(WindowEvent arg0){}
-	public void windowIconified(WindowEvent arg0){}
-	public void windowOpened(WindowEvent arg0){}
 }

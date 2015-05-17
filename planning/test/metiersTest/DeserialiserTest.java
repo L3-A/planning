@@ -51,5 +51,8 @@ public class DeserialiserTest {
 		Assert.assertEquals(false, calendrier.getDimancheOuvrable());
 		Assert.assertEquals(false, calendrier.getSamediOuvrable());
 		Assert.assertEquals("2016", calendrier.getUneAnnee().getAnnee());
+		Assert.assertEquals(null, calendrier.getUneFormation());
+		Assert.assertEquals(0, calendrier.getSeances().size());
+
 	}
 }

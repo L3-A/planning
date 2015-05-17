@@ -42,7 +42,8 @@ public class SerialiserTest {
 	 */
 	@Test
 	public void testSerialiser() {
-		File fichier = new File("C:/Users/Dylan/Documents/Planning_Vierge_2016_2017.dat");
+		String curDir = System.getProperty("user.dir");
+		File fichier = new File(curDir+"/documents/Planning_2016_2017.dat");
 		Annee annee = new Annee();
 		annee.setAnnee("2016");
 		Calendrier calendrier = new Calendrier();

@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +22,14 @@ import javax.swing.ScrollPaneConstants;
 
 import metiers.Annee;
 import metiers.Calendrier;
-import metiers.Serialiser;
+import modeles.AnneeModele;
 import modeles.CalendrierModele;
 import modeles.ListeAnneeModele;
-
-public class ChoixAnnee extends JFrame implements ActionListener, WindowListener{
+/**
+ * Vue ChoixAnnee
+ * @author Dylan
+ */
+public class ChoixAnnee extends JFrame implements ActionListener{
 	/**
 	 * serialVersionUID
 	 */
@@ -46,20 +47,18 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
     
 	private ListeAnneeModele annee;
 	private CalendrierModele calendrierModele;
-    private Serialiser serialise;
     private Calendrier calendrier;
     private Annee uneAnnee;
+    private AnneeModele anneeModele;
     
     /**
      * Constructeur
-     * @param accueil
      */
     public ChoixAnnee(){
 		setTitle("Gestion d'emploi du temps");
 		setSize(500,250);
         setLocationRelativeTo(null);
         ajouterComposants();
-    	this.addWindowListener(this);
     }
     
     /**
@@ -118,15 +117,16 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
             Object valeur = liste.getSelectedValue();
             calendrier= new Calendrier();
 			uneAnnee = new Annee();
+			anneeModele = new AnneeModele(uneAnnee);
 			
-			uneAnnee = uneAnnee.convertirUneAnnee(valeur.toString());
+			uneAnnee = anneeModele.convertirUneAnnee(valeur.toString());
 			calendrier.setUneAnnee(uneAnnee);
 			calendrier.setSamediOuvrable(samedi);
 			calendrier.setDimancheOuvrable(dimanche);
 			
 			calendrierModele = new CalendrierModele(calendrier);
 			
-			int anneeSuivante = uneAnnee.anneeChoisit(uneAnnee);
+			int anneeSuivante = anneeModele.anneeChoisit(uneAnnee);
 			anneeSuivante = anneeSuivante +1;
 			
 		    JFileChooser chooser = new JFileChooser();
@@ -140,9 +140,6 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 		    if (retrival == JFileChooser.APPROVE_OPTION) {
 		        try {
 		            fw = (chooser.getSelectedFile());
-		            //serialise = new Serialiser();
-		            //serialise.setFichier(fw);
-		            //serialise.setCalendrier(calendrier);
 					boolean reussi = calendrierModele.saveFichier(fw);
 					if(reussi == true){
 				        JOptionPane.showMessageDialog(this,"Le fichier a été enregistré dans " +fw+ " !", "Information", JOptionPane.INFORMATION_MESSAGE);						
@@ -155,15 +152,7 @@ public class ChoixAnnee extends JFrame implements ActionListener, WindowListener
 		    }
 		    List<metiers.Seance> seances = new ArrayList<metiers.Seance>();
 			new Planning(calendrierModele, fw, seances);
-			this.setVisible(false);
+			this.dispose();
 		}
 	}
-
-	public void windowActivated(WindowEvent arg0){}
-	public void windowClosed(WindowEvent arg0){}
-	public void windowClosing(WindowEvent arg0){}
-	public void windowDeactivated(WindowEvent arg0){}
-	public void windowDeiconified(WindowEvent arg0){}
-	public void windowIconified(WindowEvent arg0){}
-	public void windowOpened(WindowEvent arg0){}
 }

@@ -2,11 +2,12 @@ package modeles;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 
 import metiers.Annee;
 import metiers.Calendrier;
-import metiers.Module;
+import metiers.Deserialiser;
+import metiers.Seance;
 import metiers.Serialiser;
 
 /**
@@ -14,15 +15,45 @@ import metiers.Serialiser;
  * @author Dylan
  */
 public class CalendrierModele {
+	/**
+	 * Attribut Calendrier calendrier
+	 */
 	private Calendrier calendrier;
 	
+	/**
+	 * Constructeur de la classe qui valorise l'attribut calendrier
+	 * @param calendrier : paramètre de type Calendirer
+	 */
 	public CalendrierModele(Calendrier calendrier){
 		this.calendrier = calendrier;
 	}
 	
 	/**
+	 * Constructeur par défaut
+	 */
+	public CalendrierModele() {
+
+	}
+
+	/**
+	 * Accesseur en lecture
+	 * @return calendrier
+	 */
+	public Calendrier getCalendrier() {
+		return calendrier;
+	}
+
+	/**
+	 * Accesseur en écriture
+	 * @param calendrier : paramètre de type Calendrier
+	 */
+	public void setCalendrier(Calendrier calendrier) {
+		this.calendrier = calendrier;
+	}
+	
+	/**
 	 * Méthode qui permet de construire le calendrier pour une année scolaire
-	 * @param uneAnnee
+	 * @param uneAnnee : paramètre de type Annee
 	 * @return calendar
 	 */
 	public Calendar construireCalendrier(Annee uneAnnee){
@@ -30,9 +61,11 @@ public class CalendrierModele {
 		int anneeActuelle;
 		int anneeDefinitif;
 		Calendar calendar;
+		AnneeModele anneeModele = new AnneeModele(uneAnnee);
 		
 		//Convertion de l'année choisit pour la création du calendrier en entier
-		anneeChoisit = uneAnnee.anneeChoisit(uneAnnee);
+		
+		anneeChoisit = anneeModele.anneeChoisit(uneAnnee);
 		
 		//Récupération de l'année actuelle
         calendar = Calendar.getInstance();
@@ -63,7 +96,11 @@ public class CalendrierModele {
 		return calendar;
 	}
 	
-	
+	/**
+	 * Méthode qui permet d'enregistrer un fichier
+	 * @param file : paramètre de type File
+	 * @return reussi : true si ok sinon false
+	 */
 	public boolean saveFichier(File file){
 		boolean reussi;
 		Serialiser serialise ;
@@ -74,44 +111,103 @@ public class CalendrierModele {
 		return reussi;
 	}
 
-	public float dureeNbHeureFormation(){
-		float dureeHeures = 0;
-		int nbSeanceTotal = 0;
-		float dureeSeance = calendrier.getUneFormation().getDureeTypeSeance();
-		List<Module> modules = calendrier.getUneFormation().getModules();
-		for(Module unModule : modules){
-			nbSeanceTotal = nbSeanceTotal + unModule.getNbSeance();
-		}
-		dureeHeures = nbSeanceTotal * dureeSeance;
-		
-		return dureeHeures;
-	}
-	
-	public int dureeJoursFormation(Calendar calendar){
-    	int dureeJours = 0;
-    	int nbSemainesAnnee = calendar.getWeeksInWeekYear();
-    	boolean dimancheOuvrable = calendrier.getDimancheOuvrable();
-    	boolean samediOuvrable = calendrier.getSamediOuvrable();
-    	dureeJours = nbSemainesAnnee * 7;
-    	
-    	if(samediOuvrable == true){
-    		dureeJours = dureeJours - (nbSemainesAnnee);
-    	}
-    	
-    	if(dimancheOuvrable == true){
-    		dureeJours = dureeJours - (nbSemainesAnnee);
-    	}
-    	return dureeJours;
-	}
-
-	public Calendrier getCalendrier() {
+	/**
+	 * Méthode qui permet d'ouvrir un fichier
+	 * @param file : paramètre de type File
+	 * @return calendrier 
+	 */
+	public Calendrier openFichier(File file){
+		Calendrier calendrier = new Calendrier();
+		Deserialiser deserialise = new Deserialiser();
+		deserialise.setFichier(file);
+		deserialise.setCalendrier(calendrier);
+		calendrier = deserialise.deserialiser();
 		return calendrier;
 	}
-
-
-	public void setCalendrier(Calendrier calendrier) {
-		this.calendrier = calendrier;
+	
+	/**
+	 * Méthode qui retourne le numéro de la séance lors de son placement sur le planning
+	 * @param uneSeance : paramètre de type Seance
+	 * @return nbSeance
+	 */
+	public int nbSeanceAdd(Seance uneSeance){
+		int nbSeance = 1;
+		for(Seance seance : calendrier.getSeances()){
+			if(seance.getModule().getNom().equals(uneSeance.getModule().getNom())){
+				nbSeance = nbSeance + 1;
+			}
+		}
+		return nbSeance;
 	}
 	
-
+	/**
+	 * Méthode qui décrémente les séance dont le numéro est supérieur à la séance supprimée
+	 * @param uneSeance : paramètre de type Seance
+	 */
+	public void nbSeanceSup(Seance uneSeance){
+		int nbSeance = 0;
+		for(Seance seance : calendrier.getSeances()){
+			if(seance.getRangSeanceModule() > uneSeance.getRangSeanceModule()){
+				nbSeance = seance.getRangSeanceModule() - 1;
+				seance.setRangSeanceModule(nbSeance);			
+			}
+		}
+	}
+	
+	/**
+	 * Méthode qui récupère le numéro de la semaine sur laquelle on se trouve
+	 * @param calendarPlanning : paramètre de type Calendar
+	 * @return int : numéro de la semaine
+	 */
+    public int getNumSemaine(Calendar calendarPlanning){
+    	/* 
+    	 * Création d'un nouveau calendar pour pas modifier le calendar 
+    	 * qui sert pour savoir quelle semaine on affiche
+    	*/
+    	Calendar calendar = Calendar.getInstance();
+    	
+    	/*
+    	 * Recopie de la date actuellement mise dans le calendar 
+    	 * qui sert pour savoir quelle semaine on affiche
+    	 */
+    	calendar.setTime(calendarPlanning.getTime()); 
+    	//On récupère le numéro de la semaine
+    	int semaine = calendar.get(Calendar.WEEK_OF_YEAR); 
+    	return semaine;
+    }
+    
+    /**
+     * Méthode qui retourne la semaine sur laquelle on se trouve
+     * pour l'afficher dans le label semaineLabel
+     * @param calendarPlanning : paramètre de type Calendar
+     * @return le libellé de la semaine 
+     */
+    public String getSemaineLabel(Calendar calendarPlanning){
+    	/* 
+    	 * Création d'un nouveau calendar pour pas modifier le calendar 
+    	 * qui sert pour savoir quelle semaine on affiche
+    	*/
+    	Calendar calendar = Calendar.getInstance();
+    	
+    	/*
+    	 * Recopie de la date actuellement mise dans le calendar 
+    	 * qui sert pour savoir quelle semaine on affiche
+    	 */
+    	calendar.setTime(calendarPlanning.getTime()); 
+    	//On récupère le numéro de la semaine
+    	int semaine = calendar.get(Calendar.WEEK_OF_YEAR); 
+ 
+        //Le premier jour de la semaine
+    	Date premierJour = calendar.getTime();
+    	int moisPremierJour = calendar.get(Calendar.MONTH);
+ 
+        //Le dernier jour de la semaine
+    	calendar.add(Calendar.WEEK_OF_YEAR, 1);
+    	calendar.add(Calendar.DAY_OF_WEEK, -1);
+    	Date dernierJour = calendar.getTime();
+ 
+    	int moisDernierJour = calendar.get(Calendar.MONTH);
+ 
+    	return SemainePanelModele.getSemaineLabel(semaine, premierJour, dernierJour, moisPremierJour, moisDernierJour); 
+    }
 }

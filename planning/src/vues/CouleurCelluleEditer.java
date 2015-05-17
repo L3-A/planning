@@ -11,18 +11,25 @@ import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
-
-public class ColorCellEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
+/**
+ * Classe permettant d'afficher la fenêtre de choix d'une couleur
+ * @author Dylan
+ */
+public class CouleurCelluleEditer extends AbstractCellEditor implements TableCellEditor, ActionListener {
     /**
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Color couleur;
     private JButton bouton;
     private JColorChooser colorChooser;
     private JDialog dialog;
  
-    public ColorCellEditor() {
+    /**
+     * Constructeur
+     */
+    public CouleurCelluleEditer() {
         super();
  
         bouton = new JButton();
@@ -31,7 +38,7 @@ public class ColorCellEditor extends AbstractCellEditor implements TableCellEdit
         bouton.setBorderPainted(false);
  
         colorChooser = new JColorChooser();
-        dialog = JColorChooser.createDialog(bouton, "Pick a Color", true, colorChooser, this, null);
+        dialog = JColorChooser.createDialog(bouton, "Choisissez une couleur", true, colorChooser, this, null);
     }
  
     public void actionPerformed(ActionEvent e) {

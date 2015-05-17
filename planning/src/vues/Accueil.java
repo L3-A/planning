@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
-import metiers.Calendrier;
-import metiers.Deserialiser;
 import modeles.CalendrierModele;
 
 /**
@@ -37,9 +35,7 @@ public class Accueil extends JFrame implements ActionListener{
 	private JButton buttonOk;
 	private JFileChooser chooser;
 	
-	private Deserialiser deserialise;
 	private ChoixAnnee choixAnnee;
-	private Calendrier calendrier;
 	private CalendrierModele calendrierModele;
 
 	/**
@@ -101,14 +97,9 @@ public class Accueil extends JFrame implements ActionListener{
 		    if (retrival == JFileChooser.APPROVE_OPTION) {
 		        try {
 		            File fichier = chooser.getSelectedFile();
-					calendrier = new Calendrier();
-					deserialise = new Deserialiser();
-					deserialise.setFichier(fichier);
-					deserialise.setCalendrier(calendrier);
-					calendrier = deserialise.deserialiser();
+		            calendrierModele = new CalendrierModele();
+					calendrierModele.setCalendrier(calendrierModele.openFichier(fichier));
 
-					calendrierModele = new CalendrierModele(calendrier);
-					
 					List<metiers.Seance> seances = new ArrayList<metiers.Seance>();
 					new Planning(calendrierModele, fichier, seances);
 

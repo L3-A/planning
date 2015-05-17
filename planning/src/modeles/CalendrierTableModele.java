@@ -1,6 +1,5 @@
 package modeles;
 
-import java.awt.Color;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -26,23 +25,42 @@ public class CalendrierTableModele extends AbstractTableModel {
 	 */
     private Calendrier calendrier;
     
-    private Calendar calendar;
-	private final List<Seance> seances;
-	private int semaine;
     /**
+     * Attribut Calendat calendar
+     */
+    private Calendar calendar;
+    
+    /**
+     * Attribut List Seance seances
+     */
+	private List<Seance> seances;
+	
+	/**
+	 * Attribut int semaine
+	 */
+	private int semaine;
+	
+	/**
+	 * Attribut CalendrierModele calendrierModele
+	 */
+	private CalendrierModele calendrierModele;
+    
+	/**
      * Constructeur
-     * @param calendar
-     * @param calendrier
+     * @param calendar : paramètre de type Calendar
+     * @param calendrier : paramètre de type Calendrier
+     * @param seances : paramètre de type list Seance
      */
     public CalendrierTableModele(Calendar calendar, Calendrier calendrier, List<Seance> seances){
     	this.calendar = calendar;
     	this.calendrier = calendrier;
     	this.seances = seances;
+    	calendrierModele = new CalendrierModele(calendrier);
     }
 
     /**
      * Méthode qui retourne le nombre de colonne
-     * @return les 7 jours de la semaine
+     * @return int : les 7 jours de la semaine
      */
     public int getColumnCount(){
         return 7;
@@ -50,7 +68,7 @@ public class CalendrierTableModele extends AbstractTableModel {
 
     /**
      * Méthode qui retourne le nombre de ligne 
-     * @return les 2 lignes : matin et après-midi
+     * @return int : les 2 lignes : matin et après-midi
      */
     public int getRowCount(){
     	return 2;
@@ -60,7 +78,7 @@ public class CalendrierTableModele extends AbstractTableModel {
      * Méthode qui retourne la valeur d'une cellule
      * @param row : index de la ligne
      * @param col : index de la colonne
-     * @return Object
+     * @return String : valeur contenue dans la cellule
      */
     public String getValueAt(int row, int col){
     	String chaine = null;
@@ -68,7 +86,6 @@ public class CalendrierTableModele extends AbstractTableModel {
     		for(Seance uneSeance : seances){
     			if(uneSeance.getIndexColonne() == col && uneSeance.getIndexLigne() == row && uneSeance.getSemaine() == semaine){
     				chaine = uneSeance.toString();
-
     			}
     		}
         	switch(col){
@@ -93,52 +110,17 @@ public class CalendrierTableModele extends AbstractTableModel {
     		return null;
     	}
     }
-    
-    
-    public Class getColumnClass(int col, int row){
-    	Color couleur;
-    	if(seances.size() != 0){
-    		for(Seance uneSeance : seances){
-    			if(uneSeance.getIndexColonne() == col && uneSeance.getIndexLigne() == row && uneSeance.getSemaine() == semaine){
-    				couleur = uneSeance.getModule().getCouleur();
-    			}
-    		}
-        	switch(col){
-        	case 0:
-        		return Color.class;
-        	case 1:
-        		return Color.class;
-        	case 2:
-        		return Color.class;
-        	case 3:
-        		return Color.class;
-        	case 4:
-        		return Color.class;
-        	case 5:
-        		return Color.class;
-        	case 6:
-        		return Color.class;
-        	default:
-        		return null;
-            }
-    	}else{
-    		return null;
-    	}
-    }
-    
-    
+        
     /**
      * Méthode qui permet de dire si une cellule est éditable ou non
      * @param row : index de ligne
      * @param col : index de la colonne
-     * @return boolean
+     * @return boolean : true si éditable, false sinon
      */
     public boolean isCellEditable(int row, int col){
     	return false;
     }
 
-
-    
     /**
      * Méthode qui retourne le nom d'une colonne
      * @param col : index de la colonne
@@ -158,7 +140,46 @@ public class CalendrierTableModele extends AbstractTableModel {
     	calendarDay.add(Calendar.DATE, day);
     	return calendarDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())+" "+calendarDay.get(Calendar.DATE); // bug sur cette ligne calendar au lieu de calendarDay
     }
+	
+	/**
+	 * Méthode qui permet d'ajouter une séance à la liste des seances et donc de l'ajouter sur le planning
+	 * @param seance : paramètre de type Seance
+	 */
+    public void addSeance(Seance seance) {
+    	seances.add(seance);
+    }
+    
+    /**
+     * Méthode qui permet de supprimer séance à la liste des séances et donc de l'enlever du planning
+     * @param seance : paramètre de type Seance
+     */
+    public void removeSeance(String seance) {
+    	for(Seance uneSeance : seances){
+    		if(uneSeance.toString().equals(seance)){
+    	    	seances.remove(uneSeance);
+    	    	calendrierModele.nbSeanceSup(uneSeance);
+    	    	this.fireTableDataChanged();
+    	    	break;
+    		}
+    	}
+    }
+    
+    /**
+     * Accessuer en lecture
+     * @return semaine
+     */
+	public int getSemaine() {
+		return semaine;
+	}
 
+	/**
+	 * Accesseur en écriture
+	 * @param semaine : paramètre de type int
+	 */
+	public void setSemaine(int semaine) {
+		this.semaine = semaine;
+	}
+	
     /**
      * Accesseur en lecture
      * @return calendrier
@@ -169,7 +190,7 @@ public class CalendrierTableModele extends AbstractTableModel {
 
 	/**
 	 * Accesseur en écriture
-	 * @param calendrier
+	 * @param calendrier : paramètre de type Calendrier
 	 */
 	public void setCalendrier(Calendrier calendrier) {
 		this.calendrier = calendrier;
@@ -185,37 +206,9 @@ public class CalendrierTableModele extends AbstractTableModel {
 
 	/**
 	 * Accesseur en écriture
-	 * @param calendar
+	 * @param calendar : paramètre de type Calendar
 	 */
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
-	}
-	
-    public void addSeance(Seance seance) {
-    	seances.add(seance);
-    }
-    
-    public void removeSeance(String seance) {
-    	for(Seance uneSeance : seances){
-    		if(uneSeance.toString().equals(seance)){
-    	    	seances.remove(uneSeance);
-    	    	calendrier.nbSeanceSup(uneSeance);
-    	    	this.fireTableDataChanged();
-    	    	break;
-    		}
-    	}
-    }
-    
-    
-    public List<Seance> getSeances(){
-    	return seances;
-    }
-
-	public int getSemaine() {
-		return semaine;
-	}
-
-	public void setSemaine(int semaine) {
-		this.semaine = semaine;
 	}
 }

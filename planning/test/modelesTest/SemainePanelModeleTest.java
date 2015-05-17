@@ -33,9 +33,9 @@ public class SemainePanelModeleTest {
 		calendrier.setSamediOuvrable(false);
 		calendrier.setUneAnnee(uneAnnee);
 		
-		CalendrierModele calendrierModele = new CalendrierModele();
+		CalendrierModele calendrierModele = new CalendrierModele(calendrier);
 		
-		semainePanelModele = new SemainePanelModele(calendrier, calendrierModele);
+		semainePanelModele = new SemainePanelModele(calendrierModele);
 	}
 	
 	/**
@@ -46,9 +46,9 @@ public class SemainePanelModeleTest {
 		Annee uneAnnee = new Annee();
 		uneAnnee.setAnnee("2017");
 		Calendar calendar = semainePanelModele.getCalendrierModele().construireCalendrier(uneAnnee);
-		Assert.assertEquals(true, semainePanelModele.getCalendrier().getDimancheOuvrable());
-		Assert.assertEquals(false, semainePanelModele.getCalendrier().getSamediOuvrable());
-		Assert.assertEquals("2017", semainePanelModele.getCalendrier().getUneAnnee().getAnnee());
+		Assert.assertEquals(true, semainePanelModele.getCalendrierModele().getCalendrier().getDimancheOuvrable());
+		Assert.assertEquals(false, semainePanelModele.getCalendrierModele().getCalendrier().getSamediOuvrable());
+		Assert.assertEquals("2017", semainePanelModele.getCalendrierModele().getCalendrier().getUneAnnee().getAnnee());
 		Assert.assertEquals(2017, calendar.getWeekYear());
 	}
 	

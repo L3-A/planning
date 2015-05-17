@@ -30,7 +30,7 @@ public class Deserialiser{
 
 	/**
 	 * Accesseur en écriture
-	 * @param fichier
+	 * @param fichier : paramètre de type File
 	 */
 	public void setFichier(File fichier) {
 		this.fichier = fichier;
@@ -46,7 +46,7 @@ public class Deserialiser{
 
 	/**
 	 * Accesseur en écriture
-	 * @param calendrier
+	 * @param calendrier : paramètre de type Calendrier
 	 */
 	public void setCalendrier(Calendrier calendrier) {
 		this.calendrier = calendrier;

@@ -31,23 +31,4 @@ public class AnneeTest {
 	public void testConstructeur() {
 		Assert.assertEquals(null, annee.getAnnee());
 	}
-	
-	/**
-	 * Test de la méthode convertirUneAnnee
-	 */
-	@Test
-	public void testConvertirUneAnnee() {
-		annee = annee.convertirUneAnnee("2015-2016");
-		Assert.assertEquals("2015", annee.getAnnee());
-	}
-	
-	/**
-	 * Test de la méthode anneeChoisit
-	 */
-	@Test
-	public void testAnneeChoisit() {
-		annee.setAnnee("2016");
-		int anneeConvertie = annee.anneeChoisit(annee);
-		Assert.assertEquals(2016, anneeConvertie);
-	}
 }

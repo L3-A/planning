@@ -21,6 +21,7 @@ public class SemainePanelModele {
 	
 	/**
 	 * Constructeur
+	 * @param calendrierModele : paramètre de type calendrierModele
 	 */
 	public SemainePanelModele(CalendrierModele calendrierModele){
 		this.calendrierModele = calendrierModele;
@@ -28,7 +29,7 @@ public class SemainePanelModele {
 	
 	/**
 	 * Méthode qui copie le calendar
-	 * @param calendar
+	 * @param calendar : paramètre de type Calendar
 	 * @return calendar
 	 */
 	public Calendar copieCalendar(Calendar calendar){
@@ -40,8 +41,8 @@ public class SemainePanelModele {
  
 	/**
 	 * Méthode qui conmpte le nombre de semaine entre la première et la dernière
-	 * @param premiereSemaine
-	 * @param derniereSemaine
+	 * @param premiereSemaine : paramètre de type Calendar
+	 * @param derniereSemaine : paramètre de type Calendar
 	 * @return le nombre de semaines
 	 */
 	public int compteSemaines(Calendar premiereSemaine, Calendar derniereSemaine){
@@ -58,7 +59,7 @@ public class SemainePanelModele {
  
 	/**
 	 * Méthode qui retourne la première semaine d'un mois
-	 * @param mois
+	 * @param mois : paramètre de type int
 	 * @return calendar
 	 */
 	public Calendar getPremiereSemaine(int mois){
@@ -79,7 +80,7 @@ public class SemainePanelModele {
  
 	/**
 	 * Méthode qui retourne la dernière semaine d'un moi
-	 * @param mois
+	 * @param mois : paramètre de type int
 	 * @return calendar
 	 */
 	public Calendar getDerniereSemaine(int mois){
@@ -94,7 +95,7 @@ public class SemainePanelModele {
 
 	/**
 	 * Méthode qui retourne le libellé d'une semaine
-	 * @param semaine
+	 * @param semaine : paramètre de type int
 	 * @return libellé d'une semaine
 	 */
 	public String getSemaineLabel(Calendar semaine) {
@@ -117,7 +118,11 @@ public class SemainePanelModele {
  
 	/**
 	 * Méthode qui retourne le libellé d'une semaine pour l'afficher dans le panel
-	 * @param semaine
+	 * @param week : paramètre de type int
+	 * @param premierJour : paramètre de type Date
+	 * @param dernierJour : paramètre de type Date
+	 * @param monthPremierJour : paramètre de type int
+	 * @param monthDernierJour : paramètre de type int
 	 * @return libellé d'une semaine
 	 */
 	public static String getSemaineLabel(int week, Date premierJour, Date dernierJour, int monthPremierJour, int monthDernierJour) {
@@ -147,7 +152,7 @@ public class SemainePanelModele {
 
 	/**
 	 * Accesseur en écriture
-	 * @param calendrierModele
+	 * @param calendrierModele : paramètre de type calendrierModele
 	 */
 	public void setCalendrierModele(CalendrierModele calendrierModele) {
 		this.calendrierModele = calendrierModele;
